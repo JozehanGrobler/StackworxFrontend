@@ -6,16 +6,30 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state ={
-            serverItems :['1','2','3']
+            topCount:0,
+            serverItems :['https://cognition.dev.stackworx.cloud/api/status',
+                'https://ord.dev.stackworx.io/health',
+                'https://api.durf.dev.stackworx.io/health',
+                'https://prima.run/health',
+                'https://stackworx.io/']
         }
     }
-    checkEndPoint(){
+    checkEndPoint(item){
         var request = require('request');
-        request('https://ord.dev.stackworx.io/health', function (error, response, body) {
-            console.log('error:', error); // Print the error if one occurred
-            console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-            console.log('body:', body); // Print the HTML for the Google homepage.
+        request(item, function (error, response, body) {
+            if(response&&response.statusCode===200){
+                //show site is running
+                //make green
+                console.log("Console was here")
+                return'serverUpBlock'
+            }else if(error!==null){
+                return'serverDownBlock'
+            }
+            else if(response&&response.statusCode===503){
+                return'serverFailBlock'
+            }
         });
+
         this.interval = setInterval(()=>{
             //check status
             //set status
@@ -63,7 +77,7 @@ class App extends Component {
         })
     }
     render(){
-    const {serverItems,message}=this.state;
+    const {serverItems,message,topCount}=this.state;
     return (
       <div className="App">
         <div className="App-header">
@@ -87,31 +101,27 @@ class App extends Component {
                       <caption>Server End Points</caption>
                       <thead>
                       <tr>
-                          <th>#</th>
-                          <th>url</th>
-                          <th>status</th>
-                          <th>Remove</th>
+                          <th colSpan="1">&nbsp;</th>
+                          <th>Server Blocks</th>
                       </tr>
                       </thead>
                       <tbody>
 
                       {
                           //change to block
-                          serverItems.map(item=>{
+                          serverItems.map((item)=>{
                               return(<tr key={item}>
-                                      <th>1</th>
-                                      <td>{item}</td>
-                                      <td>{item}</td>
+                                      <td >
+                                          <div className={(e)=>this.checkEndPoint(item)} >
+                                            <p>{item}</p>
+                                          </div>
+                                      </td>
                                       <td className="text-right">
                                           <button onClick={(e)=>this.removeItem(item)} type="button"
                                                   className="btn btn-default btn-sm"
                                           >Remove</button>
                                       </td>
-                                      <td className="text-right">
-                                          <button onClick={(e)=>this.checkEndPoint()} type="button"
-                                                  className="btn btn-default btn-sm"
-                                          >Check Status</button>
-                                      </td>
+
 
                                   </tr>
                               )
