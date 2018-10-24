@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import './css/bootstrap.css';
+import TableRow from "./Components/TableRow";
+
 class App extends Component {
     constructor(props){
         super(props);
@@ -11,32 +13,35 @@ class App extends Component {
                 'https://ord.dev.stackworx.io/health',
                 'https://api.durf.dev.stackworx.io/health',
                 'https://prima.run/health',
-                'https://stackworx.io/']
+                'https://stackworx.io/'],
+            color: 'serverUpBlock',
         }
     }
-    checkEndPoint(item){
-        var request = require('request');
-        request(item, function (error, response, body) {
-            if(response&&response.statusCode===200){
-                //show site is running
-                //make green
-                console.log("Console was here")
-                return'serverUpBlock'
-            }else if(error!==null){
-                return'serverDownBlock'
-            }
-            else if(response&&response.statusCode===503){
-                return'serverFailBlock'
-            }
-        });
 
-        this.interval = setInterval(()=>{
-            //check status
-            //set status
-            //set block color
-            }
-            )
-    }
+    // checkEndPoint(item){
+    //     // TODO Move this to top of application
+    //     var request = require('request');
+    //     request(item, function (error, response, body) {
+    //         if(response&&response.statusCode===200){
+    //             //show site is running
+    //             //make green
+    //             console.log("Console was here")
+    //             this.setState('serverUpBlock')
+    //         }else if(error!==null){
+    //             this.setState('serverDownBlock')
+    //         }
+    //         else if(response&&response.statusCode===503){
+    //             this.setState('serverFailBlock')
+    //         }
+    //     });
+    //
+    //     this.interval = setInterval(()=>{
+    //         //check status
+    //         //set status
+    //         //set block color
+    //         }
+    //         )
+    // }
 
     addEndPoint(e){
        e.preventDefault();
@@ -106,26 +111,23 @@ class App extends Component {
                       </tr>
                       </thead>
                       <tbody>
+                      //TODO get items maped with new TABLEROW Element
+                      {this.state.serverItems.map((item)=>{
+                          <TableRow url={item}/>
+                      })}
+                      <TableRow url={'https://cognition.dev.stackworx.cloud/api/status'}/>
+                      <TableRow url={'https://ord.dev.stackworx.io/health'}/>
+                      <TableRow url={this.state.serverItems[1]}/>
+                      {/*<TableRow url={item}/>*/}
+                      {/*<TableRow url={item}/>*/}
+                                      {/*<td className="text-right">*/}
+                                          {/*<button onClick={(e)=>this.removeItem(item)} type="button"*/}
+                                                  {/*className="btn btn-default btn-sm"*/}
+                                          {/*>Remove</button>*/}
+                                      {/*</td>*/}
 
-                      {
-                          //change to block
-                          serverItems.map((item)=>{
-                              return(<tr key={item}>
-                                      <td >
-                                          <div className={(e)=>this.checkEndPoint(item)} >
-                                            <p>{item}</p>
-                                          </div>
-                                      </td>
-                                      <td className="text-right">
-                                          <button onClick={(e)=>this.removeItem(item)} type="button"
-                                                  className="btn btn-default btn-sm"
-                                          >Remove</button>
-                                      </td>
 
-
-                                  </tr>
-                              )
-                          })}
+                                  {/*</tr>*/}
 
                       </tbody>
                       <tfoot>
