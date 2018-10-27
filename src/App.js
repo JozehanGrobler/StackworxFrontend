@@ -8,40 +8,14 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state ={
-            topCount:0,
             serverItems :['https://cognition.dev.stackworx.cloud/api/status',
                 'https://ord.dev.stackworx.io/health',
                 'https://api.durf.dev.stackworx.io/health',
                 'https://prima.run/health',
-                'https://stackworx.io/'],
-            color: 'serverUpBlock',
+                'https://stackworx.io/']
         }
     }
 
-    // checkEndPoint(item){
-    //     // TODO Move this to top of application
-    //     var request = require('request');
-    //     request(item, function (error, response, body) {
-    //         if(response&&response.statusCode===200){
-    //             //show site is running
-    //             //make green
-    //             console.log("Console was here")
-    //             this.setState('serverUpBlock')
-    //         }else if(error!==null){
-    //             this.setState('serverDownBlock')
-    //         }
-    //         else if(response&&response.statusCode===503){
-    //             this.setState('serverFailBlock')
-    //         }
-    //     });
-    //
-    //     this.interval = setInterval(()=>{
-    //         //check status
-    //         //set status
-    //         //set block color
-    //         }
-    //         )
-    // }
 
     addEndPoint(e){
        e.preventDefault();
@@ -82,7 +56,7 @@ class App extends Component {
         })
     }
     render(){
-    const {serverItems,message,topCount}=this.state;
+    const {serverItems,message}=this.state;
     return (
       <div className="App">
         <div className="App-header">
@@ -111,13 +85,19 @@ class App extends Component {
                       </tr>
                       </thead>
                       <tbody>
-                      //TODO get items maped with new TABLEROW Element
                       {this.state.serverItems.map((item)=>{
-                          <TableRow url={item}/>
+                          return <tr>
+                           <TableRow url={item}/>
+                              <td>
+                               <button onClick={(e)=>this.removeItem(item)} type="button"
+                          className="btn btn-default btn-sm"
+                               >Remove</button>
+                              </td>
+                          </tr>
                       })}
-                      <TableRow url={'https://cognition.dev.stackworx.cloud/api/status'}/>
-                      <TableRow url={'https://ord.dev.stackworx.io/health'}/>
-                      <TableRow url={this.state.serverItems[1]}/>
+                      {/*<TableRow url={'https://cognition.dev.stackworx.cloud/api/status'}/>*/}
+                      {/*<TableRow url={'https://ord.dev.stackworx.io/health'}/>*/}
+                      {/*<TableRow url={this.state.serverItems[1]}/>*/}
                       {/*<TableRow url={item}/>*/}
                       {/*<TableRow url={item}/>*/}
                                       {/*<td className="text-right">*/}
