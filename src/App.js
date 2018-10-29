@@ -89,25 +89,13 @@ class App extends Component {
                           return <tr>
                            <TableRow url={item}/>
                               <td>
-                               <button onClick={(e)=>this.removeItem(item)} type="button"
+                               <button onClick={()=>this.removeItem(item)} type="button"
                           className="btn btn-default btn-sm"
                                >Remove</button>
                               </td>
                           </tr>
                       })}
-                      {/*<TableRow url={'https://cognition.dev.stackworx.cloud/api/status'}/>*/}
-                      {/*<TableRow url={'https://ord.dev.stackworx.io/health'}/>*/}
-                      {/*<TableRow url={this.state.serverItems[1]}/>*/}
-                      {/*<TableRow url={item}/>*/}
-                      {/*<TableRow url={item}/>*/}
-                                      {/*<td className="text-right">*/}
-                                          {/*<button onClick={(e)=>this.removeItem(item)} type="button"*/}
-                                                  {/*className="btn btn-default btn-sm"*/}
-                                          {/*>Remove</button>*/}
-                                      {/*</td>*/}
 
-
-                                  {/*</tr>*/}
 
                       </tbody>
                       <tfoot>
